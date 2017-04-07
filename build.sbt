@@ -4,7 +4,7 @@ lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
       organization := "io.neons",
-      scalaVersion := "2.12.1",
+      scalaVersion := "2.11.7",
       version      := "0.0.1"
     )),
     name := "Streamer",
@@ -12,8 +12,13 @@ lazy val root = (project in file(".")).
       scalaTest % Test,
       guice,
       scalaGuice,
-      akkaStream,
-      akkaStreamTest
+      flinkScala,
+      flinkStreaming,
+      flinkClients,
+      flinkKafka,
+      json4sNative,
+      cassandra,
+      scalaUri
     ),
     mainClass in Compile := Some("io.neons.streamer.Application")
   )
