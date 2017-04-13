@@ -18,7 +18,8 @@ lazy val root = (project in file(".")).
       flinkKafka,
       json4sNative,
       cassandra,
-      scalaUri
+      scalaUri,
+      flinkTable
     ),
     mainClass in Compile := Some("io.neons.streamer.Application")
   )

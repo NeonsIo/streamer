@@ -11,5 +11,6 @@ object Dependencies {
   lazy val json4sNative = "org.json4s" %% "json4s-native" % "3.5.0"
   lazy val cassandra = "org.apache.flink" % "flink-connector-cassandra_2.11" % "1.2.0"
   lazy val scalaUri = "com.netaporter" %% "scala-uri" % "0.4.16"
+  lazy val flinkTable = "org.apache.flink" % "flink-table_2.11" % "1.2.0"
 }
 
