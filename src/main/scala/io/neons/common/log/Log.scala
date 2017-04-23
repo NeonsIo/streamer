@@ -15,17 +15,15 @@ final case class Log(
               )
 
 object LogUriParameters {
-  val eventType = "e"
-  val language = "l"
-  val tracker = "t"
+  val requestEventType = "e"
+  val userVisitorId = "vid"
+  val userLanguage = "l"
+  val userTracker = "t"
   val documentEncoding = "de"
-  val screenResolution = "sr"
-  val screenViewport = "sv"
-  val colorDepth = "cd"
+  val deviceScreenResolution = "sr"
+  val deviceScreenViewport = "sv"
+  val deviceColorDepth = "cd"
   val deviceIdentification = "di"
   val documentLocation = "dl"
   val documentTitle = "dt"
-  val visitorId = "vid"
-  val sessionId = "sid"
-  val sessionTime = "st"
 }

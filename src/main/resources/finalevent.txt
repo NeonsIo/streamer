@@ -1,6 +1,0 @@
-event_log
-
-| session_id | visitor_id | request_id | visit_time | page_url |
-
-visitor_log
-| visitor_id |

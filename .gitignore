@@ -1,6 +1,8 @@
 .idea*
 *.env
 *.log
+*.dat
+*.mmdb
 *.iml
 target/
 .target/
@@ -9,3 +11,4 @@ target/
 .classpath
 .project
 .settings
+log/*

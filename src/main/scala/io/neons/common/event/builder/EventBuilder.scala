@@ -14,7 +14,7 @@ final class EventBuilder(uriPartsBuilder: Seq[PartsBuilder]) extends Serializabl
 
   private def createInitialStateFrom(log: Log) = Event(
     requestId = log.requestUuidL,
-    method = log.method,
-    eventDate = log.serverDate
+    requestMethod = log.method,
+    requestEventDate = log.serverDate
   )
 }
