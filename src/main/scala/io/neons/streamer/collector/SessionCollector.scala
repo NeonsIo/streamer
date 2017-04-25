@@ -29,6 +29,7 @@ class SessionCollector extends WindowFunction[Event, Session, String, TimeWindow
       input.head.requestEventDate,
       input.last.requestEventDate,
       input.size,
+      input.last.requestVisitorId,
       input.last.userTrackerId,
       input.last.userVisitorId,
       input.last.userLanguage,

@@ -5,6 +5,7 @@ import java.util.UUID
 case class Event(var requestId: String,
                  var requestMethod: String,
                  var requestEventDate: Long,
+                 var requestVisitorId: String = "",
                  var requestEventType: String = Event.pageViewEventType,
                  var userVisitorId: String = UUID.randomUUID().toString,
                  var userLanguage: String = "",
