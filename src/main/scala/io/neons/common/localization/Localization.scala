@@ -6,5 +6,5 @@ case class Localization(countryIsoCode: String,
                         subdivisionName: String,
                         cityName: String,
                         postalCode: String,
-                        lat: Double,
-                        lon: Double)
+                        lat: Option[Double],
+                        lon: Option[Double])

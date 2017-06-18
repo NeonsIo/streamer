@@ -1,4 +1,5 @@
 package io.neons.common.event.builder
+
 import io.neons.common.detector.DeviceDetector
 import io.neons.common.event.event.Event
 import io.neons.common.log.{HeaderBag, Log}

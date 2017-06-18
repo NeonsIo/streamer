@@ -18,4 +18,3 @@ object EventBuilder {
     builder.buildFrom(log)
   }
 }
-

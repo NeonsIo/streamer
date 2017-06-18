@@ -28,8 +28,8 @@ case class Event(var requestId: String,
                  var localizationSubdivisionName: String = "",
                  var localizationCityName: String = "",
                  var localizationPostalCode: String = "",
-                 var localizationLat: Double = -999,
-                 var localizationLon: Double = -999
+                 var localizationLat: Option[Double] = None,
+                 var localizationLon: Option[Double] = None
                 )
 
 object Event {

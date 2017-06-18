@@ -1,5 +1,7 @@
 import Dependencies._
 
+resolvers += "Maven snapshots" at "https://repository.apache.org/content/repositories/snapshots"
+
 lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
@@ -11,13 +13,13 @@ lazy val root = (project in file(".")).
     libraryDependencies ++= Seq(
       scalaTest % Test,
       scalaGuice,
+      scalaUri,
       flinkScala,
       flinkStreaming,
       flinkClients,
       flinkKafka,
+      flinkElasticsearch,
       json4sNative,
-      scalaUri,
-      elasticsearch,
       deviceDetectorLib,
       maxMindGeoIp2,
       "org.apache.maven.plugins" % "maven-shade-plugin" % "3.0.0",
@@ -27,3 +29,4 @@ lazy val root = (project in file(".")).
     ),
     mainClass in Compile := Some("io.neons.streamer.Application")
   )
+

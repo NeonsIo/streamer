@@ -1,0 +1,44 @@
+{
+  "mappings": {
+    "sessions": {
+      "properties": {
+        "sessionStartedAt": {"type": "date"},
+        "sessionEndedAt": {"type": "date"},
+        "lastEventEndedAt": {"type": "date"},
+        "firstEventStartedAt": {"type": "date"},
+        "numberOfEvents": {"type": "integer"},
+        "requestVisitorId": {"type": "keyword"},
+        "userTrackerId": {"type": "keyword"},
+        "userVisitorId": {"type": "keyword"},
+        "userLanguage": {"type": "keyword"},
+        "deviceScreenResolution": {"type": "keyword"},
+        "deviceScreenViewport": {"type": "keyword"},
+        "deviceColorDepth": {"type": "keyword"},
+        "deviceBrowserName": {"type": "keyword"},
+        "deviceBrowserVersion": {"type": "keyword"},
+        "devicePlatformName": {"type": "keyword"},
+        "devicePlatformVersion": {"type": "keyword"},
+        "deviceType": {"type": "keyword"},
+        "deviceIsMobile": {"type": "boolean"},
+        "localizationCountryIsoCode": {"type": "keyword"},
+        "localizationCountryName": {"type": "keyword"},
+        "localizationSubdivisionIsoCode": {"type": "keyword"},
+        "localizationSubdivisionName": {"type": "keyword"},
+        "localizationCityName": {"type": "keyword"},
+        "localizationPostalCode": {"type": "keyword"},
+        "localization": {"type": "geo_point", "ignore_malformed": true},
+        "sessionEvents": {
+          "properties": {
+            "requestId": {"type": "keyword"},
+            "requestMethod": {"type": "keyword"},
+            "requestEventDate": {"type": "date"},
+            "requestEventType": {"type": "keyword"},
+            "documentLocation": {"type": "keyword"},
+            "documentTitle": {"type": "keyword"},
+            "documentEncoding": {"type": "keyword"}
+          }
+        }
+      }
+    }
+  }
+}

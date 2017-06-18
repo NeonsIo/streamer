@@ -7,6 +7,7 @@ object ExecutionEnvironment {
   def create: StreamExecutionEnvironment = {
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
+    env.getConfig.disableClosureCleaner()
     env
   }
 }

@@ -22,8 +22,8 @@ class MaxMindLocalizationProvider(databaseReader: DatabaseReader) extends Locali
         subdivision.getName,
         city.getName,
         postal.getCode,
-        location.getLatitude,
-        location.getLongitude
+        Some(location.getLatitude),
+        Some(location.getLongitude)
       )
     } catch {
       case _: Throwable =>
@@ -34,8 +34,8 @@ class MaxMindLocalizationProvider(databaseReader: DatabaseReader) extends Locali
           "Unknown",
           "Unknown",
           "Unknown",
-          -999,
-          -999
+          None,
+          None
         )
     }
   }
