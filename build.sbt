@@ -1,17 +1,18 @@
 import Dependencies._
 
-resolvers += "Maven snapshots" at "https://repository.apache.org/content/repositories/snapshots"
+enablePlugins(DockerPlugin)
 
 lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
-      organization := "io.neons",
+      organization := "neons",
       scalaVersion := "2.11.7",
-      version      := "0.0.1"
+      version      := "0.0.2"
     )),
-    name := "Streamer",
+    name := "streamer",
     libraryDependencies ++= Seq(
       scalaTest % Test,
+      scalaMock,
       scalaGuice,
       scalaUri,
       flinkScala,
@@ -27,6 +28,34 @@ lazy val root = (project in file(".")).
       "org.apache.logging.log4j" % "log4j-api" % "2.8.1",
       "org.apache.logging.log4j" % "log4j-core" % "2.8.1"
     ),
-    mainClass in Compile := Some("io.neons.streamer.Application")
+    mainClass in Compile := Some("io.neons.streamer.application.flink.Application")
   )
 
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+
+dockerfile in docker := {
+  val artifact: File = assembly.value
+  val artifactTargetPath = s"/app/${artifact.name}"
+
+  new Dockerfile {
+    from("flink")
+    add(artifact, artifactTargetPath)
+  }
+}
+
+imageNames in docker := Seq(
+  ImageName(
+    namespace = Some(organization.value),
+    repository = name.value,
+    tag = Some(version.value)
+  )
+)
+
+buildOptions in docker := BuildOptions(
+  cache = false,
+  removeIntermediateContainers = BuildOptions.Remove.Always,
+  pullBaseImage = BuildOptions.Pull.Always
+)

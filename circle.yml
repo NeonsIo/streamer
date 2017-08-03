@@ -1,0 +1,43 @@
+machine:
+  environment:
+    SBT_VERSION: 0.13.13
+    SBT_OPTS: "-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M"
+
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+    - pip install --upgrade pip
+    - pip install docker-compose
+
+  services:
+    - docker
+
+dependencies:
+  cache_directories:
+    - "~/.sbt"
+  pre:
+    - wget --output-document=$HOME/bin/sbt-launch.jar
+      https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/"$SBT_VERSION"/sbt-launch.jar
+    - echo "java $SBT_OPTS -jar \`dirname \$0\`/sbt-launch.jar \"\$@\""
+      > $HOME/bin/sbt
+    - chmod u+x $HOME/bin/sbt
+    - which sbt
+    - sbt sbt-version
+
+general:
+  artifacts:
+    - "target/scala-2.12"
+
+test:
+  post:
+    - sbt assembly
+
+deployment:
+  release:
+    tag: /[0-9]+(\.[0-9]+)*/
+    owner: NeonsIo
+    commands:
+      - sbt assembly
+      - sbt docker
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker tag neons/collector:$CIRCLE_TAG neons/collector:latest
+      - docker push neons/collector

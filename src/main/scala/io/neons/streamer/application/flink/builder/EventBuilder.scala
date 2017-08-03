@@ -7,10 +7,10 @@ import io.neons.streamer.infrastructure.detector.FiftyOneDegreesDeviceDetector
 import io.neons.streamer.infrastructure.localization.MaxMindLocalizationProvider
 
 object EventBuilder {
-  def build(log: Log): Event = {
+  def build(log: Log, cookieName: String): Event = {
     val builder = new EventBuilder(Seq(
       new UriPartsBuilder(),
-      new CookieBasedPartsBuilder(),
+      new CookieBasedPartsBuilder(cookieName),
       new DevicePartsBuilder(FiftyOneDegreesDeviceDetector.get),
       new LocalizationPartsBuilder(MaxMindLocalizationProvider.get)
     ))

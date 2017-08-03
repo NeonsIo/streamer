@@ -14,7 +14,7 @@ class UriPartsBuilder extends PartsBuilder {
           case LogUriParameters.requestEventType => event.requestEventType = v.getOrElse(Event.pageViewEventType)
           case LogUriParameters.userLanguage => event.userLanguage = v.getOrElse(event.userLanguage)
           case LogUriParameters.userTracker => event.userTrackerId = v.getOrElse(event.userTrackerId)
-          case LogUriParameters.userVisitorId => event.userVisitorId = v.getOrElse(event.userVisitorId)
+          case LogUriParameters.userVisitorId => event.firstPartyVisitorId = v.getOrElse(event.firstPartyVisitorId)
           case LogUriParameters.deviceScreenResolution => event.deviceScreenResolution = v.getOrElse(event.deviceScreenResolution)
           case LogUriParameters.deviceScreenViewport => event.deviceScreenViewport = v.getOrElse(event.deviceScreenViewport)
           case LogUriParameters.deviceColorDepth => event.deviceColorDepth = v.getOrElse(event.deviceColorDepth)
