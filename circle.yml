@@ -39,5 +39,5 @@ deployment:
       - sbt assembly
       - sbt docker
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker tag neons/collector:$CIRCLE_TAG neons/collector:latest
-      - docker push neons/collector
+      - docker tag neons/streamer:$CIRCLE_TAG neons/streamer:latest
+      - docker push neons/streamer

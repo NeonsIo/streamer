@@ -1,20 +1,15 @@
 package io.neons.streamer.application.flink
 
-import java.net.{InetAddress, InetSocketAddress}
-
 import io.neons.streamer.application.flink.builder.EventBuilder
 import io.neons.streamer.application.flink.collector.SessionCollector
 import io.neons.streamer.application.flink.environment.ExecutionEnvironment
 import io.neons.streamer.application.flink.source.KafkaConsumer
-import io.neons.streamer.domain.session.Session
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.windowing.assigners.EventTimeSessionWindows
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.api.windowing.triggers.ContinuousEventTimeTrigger
-import org.apache.flink.streaming.connectors.elasticsearch5.ElasticsearchSink
 import com.typesafe.config.ConfigFactory
-import io.neons.streamer.application.flink.sink.ElasticsearchSinkFunctionImpl
-
+import io.neons.streamer.application.flink.sink.ElasticsearchSinkImpl
 import scala.collection.JavaConverters._
 
 object Application {
@@ -36,28 +31,12 @@ object Application {
       .trigger(ContinuousEventTimeTrigger of Time.seconds(appConfig.getLong("streamer.session-window-trigger")))
       .apply(SessionCollector.collect)
 
-
-    val config = new java.util.HashMap[String, String]
-    config.put("cluster.name", appConfig.getString("streamer.elasticsearch-cluster-name"))
-    config.put("bulk.flush.max.actions", appConfig.getString("streamer.elasticsearch-bulk-flush-max-actions"))
-
-    val transportAddresses = new java.util.ArrayList[InetSocketAddress]
-
-    appConfig.getObjectList("streamer.elasticsearch-cluster").asScala.toList.foreach(u => {
-      transportAddresses.add(
-        new InetSocketAddress(
-          InetAddress.getByName(u.get("host").unwrapped().toString),
-          u.get("port").unwrapped().asInstanceOf[Int]
-        )
-      )
-    })
-
-
-
-    sessionDataStream.addSink(new ElasticsearchSink[Session](config, transportAddresses, new ElasticsearchSinkFunctionImpl()))
+    sessionDataStream.addSink(ElasticsearchSinkImpl.runWith(
+      appConfig.getString("streamer.elasticsearch-cluster-name"),
+      appConfig.getString("streamer.elasticsearch-bulk-flush-max-actions"),
+      appConfig.getObjectList("streamer.elasticsearch-cluster").asScala.toList
+    ))
     sessionDataStream.print()
-
-
     env.execute()
   }
 }
