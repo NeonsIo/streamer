@@ -2,12 +2,15 @@ import Dependencies._
 
 enablePlugins(DockerPlugin)
 
+val getDeviceDetectorData = taskKey[Unit]("download device detector db")
+val getGeoIpData = taskKey[Unit]("download geo ip data")
+
 lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
       organization := "neons",
       scalaVersion := "2.11.7",
-      version      := "0.0.5"
+      version      := "0.0.6"
     )),
     name := "streamer",
     libraryDependencies ++= Seq(
@@ -28,7 +31,24 @@ lazy val root = (project in file(".")).
       "org.apache.logging.log4j" % "log4j-api" % "2.8.1",
       "org.apache.logging.log4j" % "log4j-core" % "2.8.1"
     ),
-    mainClass in Compile := Some("io.neons.streamer.application.flink.Application")
+    mainClass in Compile := Some("io.neons.streamer.application.flink.Application"),
+
+    getDeviceDetectorData := {
+      println("Start downloading device detector data")
+      IO.download(
+        new URL("https://github.com/51Degrees/Device-Detection/raw/master/data/51Degrees-LiteV3.2.dat"),
+        new File("src/main/resources/51Degrees.dat")
+      )
+    },
+
+    getGeoIpData := {
+      println("Start downloading geo ip data")
+      IO.download(
+        new URL("https://github.com/maxmind/MaxMind-DB-Reader-dotnet/raw/master/MaxMind.Db.Benchmark/GeoLite2-City.mmdb"),
+        new File("src/main/resources/GeoLite2-City.mmdb")
+      )
+    }
+
   )
 
 assemblyMergeStrategy in assembly := {
