@@ -29,7 +29,7 @@ class CookieBasedPartsBuilderSpec  extends FlatSpec with Matchers {
     event.thirdPartyVisitorId should be("test")
   }
 
-  it should "have empty value if cookie does not exist" in {
+  it should "have random value if cookie does not exist" in {
     val builder = new CookieBasedPartsBuilder("cookie2")
     val event = Event(
       "82e216d7-2585-4b53-ae62-f9c788cc9a80",
@@ -48,6 +48,6 @@ class CookieBasedPartsBuilderSpec  extends FlatSpec with Matchers {
 
     builder.buildFrom(log, event)
 
-    event.thirdPartyVisitorId should be("")
+    event.thirdPartyVisitorId.length should be(36)
   }
 }
