@@ -40,9 +40,10 @@ class ElasticsearchSinkFunctionImpl extends ElasticsearchSinkFunction[Session] {
       sessionMap.put("localization", session.localizationLat.get + "," +session.localizationLon.get)
     }
 
-    val sessionEvent = new java.util.HashMap[String, Any]
     val sessionEvents = new util.ArrayList[java.util.HashMap[String, Any]]()
-    session.sessionEvents.foreach(se => {
+
+    for (se <- session.sessionEvents) {
+      val sessionEvent = new java.util.HashMap[String, Any]
       sessionEvent.put("requestId", se.requestId)
       sessionEvent.put("requestMethod", se.requestMethod)
       sessionEvent.put("requestEventDate", se.requestEventDate)
@@ -51,7 +52,7 @@ class ElasticsearchSinkFunctionImpl extends ElasticsearchSinkFunction[Session] {
       sessionEvent.put("documentTitle", se.documentTitle)
       sessionEvent.put("documentEncoding", se.documentEncoding)
       sessionEvents.add(sessionEvent)
-    })
+    }
 
     sessionMap.put("sessionEvents", sessionEvents)
 
