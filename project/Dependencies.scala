@@ -13,4 +13,7 @@ object Dependencies {
   lazy val scalaUri = "com.netaporter" %% "scala-uri" % "0.4.16"
   lazy val deviceDetectorLib = "com.51degrees" % "51Degrees.detection.core" % "3.2.1.9-beta"
   lazy val maxMindGeoIp2 = "com.maxmind.geoip2" % "geoip2" % "2.8.1"
+  lazy val flinkTable = "org.apache.flink" % "flink-table_2.10" % "1.3.1"
+  lazy val cassandra = "org.apache.flink" % "flink-connector-cassandra_2.10" % "1.3.1"
+
 }

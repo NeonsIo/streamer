@@ -26,6 +26,8 @@ lazy val root = (project in file(".")).
       json4sNative,
       deviceDetectorLib,
       maxMindGeoIp2,
+      flinkTable,
+      cassandra,
       "org.apache.maven.plugins" % "maven-shade-plugin" % "3.0.0",
       "org.slf4j" % "slf4j-simple" % "1.7.24",
       "org.apache.logging.log4j" % "log4j-api" % "2.8.1",

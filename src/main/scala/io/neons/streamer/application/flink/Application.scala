@@ -1,5 +1,6 @@
 package io.neons.streamer.application.flink
 
+import com.datastax.driver.core.Cluster
 import io.neons.streamer.application.flink.builder.EventBuilder
 import io.neons.streamer.application.flink.collector.SessionCollector
 import io.neons.streamer.application.flink.environment.ExecutionEnvironment
@@ -10,6 +11,11 @@ import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.api.windowing.triggers.ContinuousEventTimeTrigger
 import com.typesafe.config.ConfigFactory
 import io.neons.streamer.application.flink.sink.ElasticsearchSinkImpl
+import io.neons.streamer.domain.session.Session
+import org.apache.flink.streaming.connectors.cassandra.{CassandraSink, ClusterBuilder}
+import org.apache.flink.streaming.connectors.cassandra.CassandraSink
+
+
 import scala.collection.JavaConverters._
 
 object Application {
@@ -31,11 +37,26 @@ object Application {
       .trigger(ContinuousEventTimeTrigger of Time.seconds(appConfig.getLong("streamer.session-window-trigger")))
       .apply(SessionCollector.collect)
 
-    sessionDataStream.addSink(ElasticsearchSinkImpl.runWith(
-      appConfig.getString("streamer.elasticsearch-cluster-name"),
-      appConfig.getString("streamer.elasticsearch-bulk-flush-max-actions"),
-      appConfig.getObjectList("streamer.elasticsearch-cluster").asScala.toList
-    ))
+
+//    sessionDataStream.addSink(ElasticsearchSinkImpl.runWith(
+//      appConfig.getString("streamer.elasticsearch-cluster-name"),
+//      appConfig.getString("streamer.elasticsearch-bulk-flush-max-actions"),
+//      appConfig.getObjectList("streamer.elasticsearch-cluster").asScala.toList
+//    ))
+
+      CassandraSink
+      .addSink(sessionDataStream.javaStream)
+//      .setQuery("INSERT INTO sessions (userVisitorId, sessionStartedAt) values (?, ?);")
+      .setClusterBuilder(new ClusterBuilder {
+        override def buildCluster(builder: Cluster.Builder): Cluster = {
+          builder.addContactPoint("10.0.0.60").build()
+          builder.addContactPoint("10.0.0.61").build()
+        }
+      })
+      .build()
+
+
+
     sessionDataStream.print()
     env.execute()
   }

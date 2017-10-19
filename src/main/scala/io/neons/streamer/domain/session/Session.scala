@@ -1,17 +1,21 @@
 package io.neons.streamer.domain.session
 
+import java.sql.Timestamp
+
 case class SessionEvent(requestId: String,
                         requestMethod: String,
-                        requestEventDate: Long,
+                        requestEventDate: Timestamp,
                         requestEventType: String,
                         documentLocation: String,
                         documentTitle: String,
                         documentEncoding: String)
 
-case class Session(sessionStartedAt: Long,
-                   sessionEndedAt: Long,
-                   lastEventEndedAt: Long,
-                   firstEventStartedAt: Long,
+case class Session(
+                   sessionId: String,
+                   sessionStartedAt: Timestamp,
+                   sessionEndedAt: Timestamp,
+                   lastEventEndedAt: Timestamp,
+                   firstEventStartedAt: Timestamp,
                    numberOfEvents: Int,
                    requestVisitorId: String,
                    userTrackerId: String,
